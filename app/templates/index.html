@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
+          integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+    <title>ToDo | Flask app</title>
+</head>
+<body>
+
+
+<div class="container">
+
+    <div class="ml-auto">
+        <h1 align="center">ToDO | Flask app</h1>
+    </div>
+
+    {% if message %}
+    <div class="alert alert-danger" role="alert">
+        <p class="message">{{ message | safe }}</p>
+    </div>
+    {% endif %}
+
+    <div class="pb-3">
+        <form action="{{ url_for('add') }}" method="post">
+            <div class="form-group">
+                <label for="Text content">ToDo title</label>
+                <input type="text" class="form-control" id="Text content" name="content">
+                <small id="textHelp" class="form-text text-muted">Write what you want to do.</small>
+            </div>
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+    </div>
+
+
+    {% for todo in todo_list %}
+
+    <div class="pb-3">
+        <div class="card">
+            <div class="card-body">
+                <p> {{ todo.content | capitalize }}</p>
+                {% if todo.status %}
+                <button disabled class="btn btn-success">Complete</button>
+                {% else %}
+                <button disabled class="btn btn-secondary">Not Complete</button>
+                {% endif %}
+
+                <a href="{{ url_for('update', todo_id=todo.id) }}">
+                    <button type="button" class="btn btn-info">Update</button>
+                </a>
+                <a href="{{ url_for('delete', todo_id=todo.id) }}">
+                    <button type="button" class="btn btn-danger">Delete</button>
+                </a>
+            </div>
+        </div>
+    </div>
+
+
+    {% endfor %}
+
+
+</div>
+
+</body>
+</html>
